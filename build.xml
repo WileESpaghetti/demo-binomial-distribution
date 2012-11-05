@@ -1,0 +1,42 @@
+<project name="OddOrEven" default="build" basedir=".">
+
+	<description>Goodsoup shell</description>
+
+	<property name="src.dir" location="src"/>
+	<property name="src.version" value="1.5"/>
+	<property name="src.package" value="oddoreven"/>
+	<property name="doc.dir" location="doc"/>
+	<property name="build.dir" location="bin"/>
+	<property name="build.target" value="1.5"/>
+	<property name="build.jar.file" value="${ant.project.name}.jar"/>
+	<property name="build.jar.mainclass" value="GameGUI"/>
+
+	<target name="clean">
+		<delete dir="${build.dir}"/>
+		<delete dir="${doc.dir}"/>
+		<delete file="${build.jar.file}"/>
+	</target>
+
+	<target name="build">
+		<mkdir dir="${build.dir}"/>
+		<javac srcdir="${src.dir}" destdir="${build.dir}" target="${build.target}" source="${build.target}"/>
+	</target>
+
+	<target name="jar" depends="build">
+		<jar destfile="${build.jar.file}" basedir="${build.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${src.package}/${build.jar.mainclass}"/>
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="run" depends="jar">
+		<!-- jar files must have fork set to true -->
+		<java jar="${build.jar.file}" fork="true"/>
+	</target>
+
+	<target name="doc">
+		<javadoc sourcepath="${src.dir}" destdir="${doc.dir}"/>
+	</target>
+
+</project>
